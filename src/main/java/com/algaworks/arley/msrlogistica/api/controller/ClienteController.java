@@ -1,7 +1,7 @@
 package com.algaworks.arley.msrlogistica.api.controller;
 
 import java.util.ArrayList;
-
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +13,8 @@ import com.algaworks.arley.msrlogistica.domain.model.Cliente;
 public class ClienteController {
 	
 	@GetMapping("/clientes")
-	public ArrayList<Cliente> helloWorld() {
-		var lista = new ArrayList<Cliente>();
+	public List<Cliente> helloWorld() {
+		ArrayList<Cliente> lista = new ArrayList<>();
 		
 		var c = new Cliente();
 		c.setId(1L);
@@ -28,9 +28,6 @@ public class ClienteController {
 		c1.setEmail("joao@gmail.com");
 		c1.setTelefone("84994243220");
 		
-		lista.add(c);
-		lista.add(c1);
-		
-		return lista;
+		return Arrays.asList(c, c1);
 	}
 }
