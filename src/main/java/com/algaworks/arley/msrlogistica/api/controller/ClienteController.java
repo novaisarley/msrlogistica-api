@@ -13,9 +13,7 @@ import com.algaworks.arley.msrlogistica.domain.model.Cliente;
 public class ClienteController {
 	
 	@GetMapping("/clientes")
-	public List<Cliente> helloWorld() {
-		ArrayList<Cliente> lista = new ArrayList<>();
-		
+	public List<Cliente> helloWorld() {		
 		var c = new Cliente();
 		c.setId(1L);
 		c.setNome("Arley");
@@ -24,7 +22,7 @@ public class ClienteController {
 		
 		var c1 = new Cliente();
 		c1.setId(2L);
-		c1.setNome("Jão");
+		c1.setNome("Jão1");
 		c1.setEmail("joao@gmail.com");
 		c1.setTelefone("84994243220");
 		
