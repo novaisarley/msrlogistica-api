@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,7 +52,9 @@ public class ClienteController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cliente adicionarCliente(@RequestBody Cliente cliente) {
+	public Cliente adicionarCliente(@Valid @RequestBody Cliente cliente) {
+		//O @Valid valida as especificações definidas na classe(Cliente) antes de executar o metodo
+		//Com ele o erro retornado nao é mais Internal Server Error e sim o Bad Request
 		return repositoryC.save(cliente);
 	}
 	
