@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -14,8 +15,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import com.algaworks.arley.msrlogistica.domain.exception.NegocioException;
 
 //Trata as exceptions lançadas por qualquer @Controller
 @ControllerAdvice
@@ -43,5 +47,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		erro.setCampos(campos);
 		
 		return handleExceptionInternal(ex, erro, headers, status, request);
+	}
+	
+	@ExceptionHandler(NegocioException.class)
+	public ResponseEntity<Object> handleNegocio(NegocioException nex, WebRequest request){
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		
+		Erro erro = new Erro();
+		erro.setStatus(status.value());
+		erro.setDataHora(LocalDateTime.now());
+		erro.setTitulo(nex.getMessage());
+		
+		return handleExceptionInternal(nex, erro, new HttpHeaders(), status, request);
 	}
 }

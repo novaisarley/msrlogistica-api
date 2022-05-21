@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.arley.msrlogistica.domain.model.Cliente;
 import com.algaworks.arley.msrlogistica.domain.repository.ClienteRepository;
+import com.algaworks.arley.msrlogistica.domain.service.ClienteService;
 
 @RestController()
 @RequestMapping("/clientes")
@@ -31,6 +32,9 @@ public class ClienteController {
 	
 	@Autowired
 	private ClienteRepository repositoryC;
+	
+	@Autowired
+	private ClienteService serviceC;
 	
 	@GetMapping
 	public List<Cliente> listarClientes() {		
@@ -55,7 +59,7 @@ public class ClienteController {
 	public Cliente adicionarCliente(@Valid @RequestBody Cliente cliente) {
 		//O @Valid valida as especificações definidas na classe(Cliente) antes de executar o metodo
 		//Com ele o erro retornado nao é mais Internal Server Error e sim o Bad Request
-		return repositoryC.save(cliente);
+		return serviceC.salvar(cliente);
 	}
 	
 	@PutMapping("/{clienteId}")
@@ -65,15 +69,15 @@ public class ClienteController {
 		}
 		
 		cliente.setId(clienteId);
-		cliente = repositoryC.save(cliente);
+		cliente = serviceC.salvar(cliente);
 		
 		return ResponseEntity.ok(cliente);
 	}
 	
-	@DeleteMapping("{idCliente}")
-	public ResponseEntity<Void> deletarCliente(@PathVariable Long idCliente) {
-		if(repositoryC.existsById(idCliente)) {
-			repositoryC.deleteById(idCliente);
+	@DeleteMapping("/{clienteId}")
+	public ResponseEntity<Void> deletarCliente(@PathVariable Long clienteId) {
+		if(repositoryC.existsById(clienteId)) {
+			serviceC.excluir(clienteId);
 			return ResponseEntity.noContent().build();
 		}else {
 			return ResponseEntity.notFound().build();
