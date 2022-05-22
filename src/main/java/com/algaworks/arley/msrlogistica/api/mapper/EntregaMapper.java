@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.algaworks.arley.msrlogistica.api.model.EntregaModel;
+import com.algaworks.arley.msrlogistica.api.model.input.EntregaInput;
 import com.algaworks.arley.msrlogistica.domain.model.Entrega;
 
 @Component
@@ -23,5 +24,9 @@ public class EntregaMapper {
 	public List<EntregaModel> toModel(List<Entrega> entregas) {
 		return mapper.map(entregas, new TypeToken<List<EntregaModel>>() {}.getType());
 		//Usei o TypeToken, pois não é possivel usar "List<EntregaModel>.class"
+	}
+	
+	public Entrega toEntity(EntregaInput input) {		
+		return mapper.map(input, Entrega.class);
 	}
 }
