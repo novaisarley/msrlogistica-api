@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.algaworks.arley.msrlogistica.api.mapper.EntregaMapper;
 import com.algaworks.arley.msrlogistica.api.model.EntregaModel;
 import com.algaworks.arley.msrlogistica.domain.model.Entrega;
 import com.algaworks.arley.msrlogistica.domain.repository.EntregaRepository;
@@ -28,24 +28,33 @@ public class EntregaController {
 	
 	@Autowired
 	private EntregaService entregaService;
-
 	@Autowired
 	private EntregaRepository entregaRepository;
+	@Autowired
+	private EntregaMapper entregaMapper;
 	
 	@GetMapping
-	public List<Entrega> getEntregas() {
-		return entregaRepository.findAll();
+	public List<EntregaModel> getEntregas() {
+		return entregaMapper.toModel(entregaRepository.findAll());
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Entrega solicitarEntrega(@Valid @RequestBody Entrega entrega) {
-		return entregaService.solicitarEntrega(entrega);
+	public EntregaModel solicitarEntrega(@Valid @RequestBody Entrega entrega) {
+		Entrega entregaCriada = entregaService.solicitarEntrega(entrega);
+		return entregaMapper.toModel(entregaCriada);
 		
 	}
 	
 	@GetMapping("/{idEntrega}")
 	public ResponseEntity<EntregaModel> getEntregaById(@PathVariable Long idEntrega){
-		return entregaService.getEntregaById(idEntrega);
+		Optional<Entrega> entregaOptional = entregaRepository.findById(idEntrega);
+		if(!entregaOptional.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		Entrega entrega = entregaOptional.get();
+		
+		return ResponseEntity.ok(entregaMapper.toModel(entrega)); 
 	}
 }
