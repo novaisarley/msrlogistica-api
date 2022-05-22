@@ -11,7 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 
+import com.algaworks.arley.msrlogistica.domain.ValidationGroups;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -30,16 +35,22 @@ public class Entrega {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	//Para um relacioanmento de chave estrangeira
+	//Para um relacionamento de chave estrangeira
 	//Nome padrao da coluna vai ser "cliente_id"
 	//Caso queira mudar o nome padrao é so usar o @JoinColumn(name = "NOVO_NOME")
 	@ManyToOne
+	@NotNull
+	@ConvertGroup(from = Default.class, to = ValidationGroups.ClienteId.class)
+	@Valid
 	private Cliente cliente;
 	
 	//Cria colunas para todos os atributos
+	@Valid
+	@NotNull
 	@Embedded
 	private Destinatario destinatario;
 	
+	@NotNull
 	private BigDecimal taxa;
 	
 	/*esses READ_ONLY são para o consumidor da API nao 

@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.arley.msrlogistica.domain.exception.NegocioException;
@@ -33,5 +34,15 @@ public class EntregaService {
 		entrega.setDataPedido(LocalDateTime.now());
 		
 		return entregaRepository.save(entrega);
+	}
+
+	public ResponseEntity<Entrega> getEntregaById(Long idEntrega) {
+		Optional<Entrega> entrega = entregaRepository.findById(idEntrega);
+		
+		if(!entrega.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		return ResponseEntity.ok(entrega.get());
 	}
 }
