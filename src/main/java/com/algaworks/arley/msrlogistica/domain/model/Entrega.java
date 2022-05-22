@@ -12,6 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,10 +42,16 @@ public class Entrega {
 	
 	private BigDecimal taxa;
 	
+	/*esses READ_ONLY são para o consumidor da API nao 
+	poder alterar diretamente esses dados no momento que passar 
+	o corpo da requisição*/
+	@JsonProperty(access = Access.READ_ONLY)
 	@Enumerated(EnumType.STRING)
 	private StatusEntrega status;
 	
+	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDateTime dataPedido;
 	
+	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDateTime dataFinalizacao;
 }
