@@ -29,58 +29,60 @@ import com.algaworks.arley.msrlogistica.domain.service.ClienteService;
 @RestController()
 @RequestMapping("/clientes")
 public class ClienteController {
-	
+
 	@Autowired
 	private ClienteRepository repositoryC;
-	
+
 	@Autowired
 	private ClienteService serviceC;
-	
+
 	@GetMapping
-	public List<Cliente> listarClientes() {		
-		
+	public List<Cliente> listarClientes() {
+
 		return repositoryC.findAll();
 	}
-	
+
 	@GetMapping("/{clienteId}")
 	public ResponseEntity<Cliente> buscarClientePorId(@PathVariable Long clienteId) {
 		Optional<Cliente> cliente = repositoryC.findById(clienteId);
-		
-		if(cliente.isPresent()) {
+
+		if (cliente.isPresent()) {
 			return ResponseEntity.ok(cliente.get());
-			//Retorna o CODIGO 200 juntamente com o Cliente
+			// Retorna o CODIGO 200 juntamente com o Cliente
 		}
-		//Retorna o CODIGO 404
-		return ResponseEntity.notFound().build(); 		
+		// Retorna o CODIGO 404
+		return ResponseEntity.notFound().build();
 	}
-	
+
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cliente adicionarCliente(@Valid @RequestBody Cliente cliente) {
-		//O @Valid valida as especificações definidas na classe(Cliente) antes de executar o metodo
-		//Com ele o erro retornado nao é mais Internal Server Error e sim o Bad Request
+		// O @Valid valida as especificações definidas na classe(Cliente) antes de
+		// executar o metodo
+		// Com ele o erro retornado nao é mais Internal Server Error e sim o Bad Request
 		return serviceC.salvar(cliente);
 	}
-	
+
 	@PutMapping("/{clienteId}")
-	public ResponseEntity<Cliente> atualizarCliente(@PathVariable Long clienteId, @RequestBody Cliente cliente){
-		if(!repositoryC.existsById(clienteId)) {
+	public ResponseEntity<Cliente> atualizarCliente(@PathVariable Long clienteId, @RequestBody Cliente cliente) {
+		if (!repositoryC.existsById(clienteId)) {
 			return ResponseEntity.notFound().build();
 		}
-		
+
 		cliente.setId(clienteId);
 		cliente = serviceC.salvar(cliente);
-		
+
 		return ResponseEntity.ok(cliente);
 	}
-	
+
 	@DeleteMapping("/{clienteId}")
 	public ResponseEntity<Void> deletarCliente(@PathVariable Long clienteId) {
-		if(repositoryC.existsById(clienteId)) {
+		if (repositoryC.existsById(clienteId)) {
 			serviceC.excluir(clienteId);
 			return ResponseEntity.noContent().build();
-		}else {
+		} else {
 			return ResponseEntity.notFound().build();
 		}
 	}
+
 }
