@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.algaworks.arley.msrlogistica.api.model.EntregaModel;
 import com.algaworks.arley.msrlogistica.domain.model.Entrega;
 import com.algaworks.arley.msrlogistica.domain.repository.EntregaRepository;
 import com.algaworks.arley.msrlogistica.domain.service.EntregaService;
@@ -44,7 +45,7 @@ public class EntregaController {
 	}
 	
 	@GetMapping("/{idEntrega}")
-	public ResponseEntity<Entrega> getEntregaById(@PathVariable Long idEntrega){
+	public ResponseEntity<EntregaModel> getEntregaById(@PathVariable Long idEntrega){
 		return entregaService.getEntregaById(idEntrega);
 	}
 }
