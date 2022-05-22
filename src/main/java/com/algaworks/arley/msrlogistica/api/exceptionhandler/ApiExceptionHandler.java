@@ -1,6 +1,7 @@
 package com.algaworks.arley.msrlogistica.api.exceptionhandler;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		
 		Erro erro = new Erro();
 		erro.setStatus(status.value());
-		erro.setDataHora(LocalDateTime.now());
+		erro.setDataHora(OffsetDateTime.now());
 		erro.setTitulo("Um ou mais campos estão inválidos");
 		erro.setCampos(campos);
 		
@@ -55,7 +56,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		
 		Erro erro = new Erro();
 		erro.setStatus(status.value());
-		erro.setDataHora(LocalDateTime.now());
+		erro.setDataHora(OffsetDateTime.now());
 		erro.setTitulo(nex.getMessage());
 		
 		return handleExceptionInternal(nex, erro, new HttpHeaders(), status, request);
