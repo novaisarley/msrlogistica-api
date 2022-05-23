@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.arley.msrlogistica.api.mapper.EntregaMapper;
 import com.algaworks.arley.msrlogistica.api.model.EntregaModel;
+import com.algaworks.arley.msrlogistica.api.model.input.EntregaInput;
 import com.algaworks.arley.msrlogistica.domain.model.Entrega;
 import com.algaworks.arley.msrlogistica.domain.repository.EntregaRepository;
 import com.algaworks.arley.msrlogistica.domain.service.EntregaService;
@@ -40,10 +41,11 @@ public class EntregaController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public EntregaModel solicitarEntrega(@Valid @RequestBody Entrega entrega) {
-		Entrega entregaCriada = entregaService.solicitarEntrega(entrega);
-		return entregaMapper.toModel(entregaCriada);
+	public EntregaModel solicitarEntrega(@Valid @RequestBody EntregaInput entrega) {
+		Entrega entregaConvertida = entregaMapper.toEntity(entrega);
+		Entrega entregaCriada = entregaService.solicitarEntrega(entregaConvertida);
 		
+		return entregaMapper.toModel(entregaCriada);
 	}
 	
 	@GetMapping("/{idEntrega}")
