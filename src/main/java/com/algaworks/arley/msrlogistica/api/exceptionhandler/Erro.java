@@ -19,10 +19,10 @@ public class Erro {
 	private OffsetDateTime dataHora;
 	private String titulo;
 	private List<Campo> campos;
-	
+
 	@AllArgsConstructor
 	@Getter
-	public static class Campo{
+	public static class Campo {
 		private String nome;
 		private String mensagem;
 	}

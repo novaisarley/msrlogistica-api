@@ -27,5 +27,5 @@ public class Ocorrencia {
 	@ManyToOne
 	private Entrega entrega;
 	
-	private OffsetDateTime dataRegisto;
+	private OffsetDateTime dataRegistro;
 }

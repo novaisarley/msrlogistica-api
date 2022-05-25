@@ -41,6 +41,17 @@ public class EntregaService {
 		
 		return entregaRepository.save(entrega);
 	}
+	
+	@Transactional
+	public Entrega buscarEntrega(Long id) {
+		Optional<Entrega> entregaO = entregaRepository.findById(id);
+		if(!entregaO.isPresent()) {
+			throw new NegocioException("Entrega não encontrada");
+		}
+		
+		return entregaO.get();
+		
+	}
 
 	
 }

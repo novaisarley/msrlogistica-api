@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -48,8 +49,9 @@ public class Entrega {
 	@Embedded
 	private Destinatario destinatario;
 	
-	@OneToMany(mappedBy = "entrega")
-	private List<Ocorrencia> ocorrrencias;
+	//"entrega" é o nome da propriedade do lado inverso (Ocorrencia)
+	/*@OneToMany(mappedBy = "entrega", cascade = CascadeType.ALL)
+	private List<Ocorrencia> ocorrrencias;*/
 	
 	@NotNull
 	private BigDecimal taxa;
@@ -60,4 +62,15 @@ public class Entrega {
 	private OffsetDateTime dataPedido;
 	
 	private OffsetDateTime dataFinalizacao;
+	
+	/*public Ocorrencia adicionarOcorrencia(String descricao) {
+		Ocorrencia ocorrencia = new Ocorrencia();
+		ocorrencia.setDescricao(descricao);
+		ocorrencia.setDataRegisto(OffsetDateTime.now());
+		ocorrencia.setEntrega(this);
+
+		this.getOcorrrencias().add(ocorrencia);
+		
+		return ocorrencia;
+	}*/
 }
