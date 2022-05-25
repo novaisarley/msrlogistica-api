@@ -52,6 +52,15 @@ public class EntregaService {
 		return entregaO.get();
 		
 	}
+	
+	@Transactional
+	public void finalizarEntrega(Long entregaId) {
+		Entrega entrega = buscarEntrega(entregaId);
+		
+		entrega.finalizar();
+		
+		entregaRepository.save(entrega);
+	}
 
 	
 }

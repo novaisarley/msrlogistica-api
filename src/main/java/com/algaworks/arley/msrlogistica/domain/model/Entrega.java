@@ -21,6 +21,7 @@ import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 
 import com.algaworks.arley.msrlogistica.domain.ValidationGroups;
+import com.algaworks.arley.msrlogistica.domain.exception.NegocioException;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -62,6 +63,14 @@ public class Entrega {
 	private OffsetDateTime dataPedido;
 	
 	private OffsetDateTime dataFinalizacao;
+	
+	public void finalizar() {
+		if(!this.getStatus().equals(StatusEntrega.PENDENTE)) {
+			throw new NegocioException("Entrega não pode ser finalizada!");
+		}
+		this.setStatus(StatusEntrega.FINALIZADA);
+		this.setDataFinalizacao(OffsetDateTime.now());
+	}
 	
 	/*public Ocorrencia adicionarOcorrencia(String descricao) {
 		Ocorrencia ocorrencia = new Ocorrencia();
